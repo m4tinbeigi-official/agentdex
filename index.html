@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" class="dark">
+<html lang="en" dir="ltr" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgentDex — Universal AI Agent Skills Registry</title>
+  <title>AgentDex — Universal AI Agent Skills & Capabilities Registry</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,171 +16,244 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Vazirmatn', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            farsi: ['Vazirmatn', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#eef2ff',
-              500: '#4f46e5',
-              600: '#4338ca',
-              electric: '#00f0ff',
-              dark: '#0a0d14',
-              surface: '#111726',
-              border: '#1e293b'
+            dex: {
+              base: '#07090e',
+              panel: '#0e131f',
+              surface: '#131b2e',
+              border: '#1f293d',
+              accent: '#38bdf8',
+              glow: '#0284c7',
+              success: '#10b981',
+              violet: '#818cf8',
+              rose: '#f43f5e',
+              amber: '#f59e0b'
             }
           }
         }
       }
     }
   </script>
+
   <style>
+    :root {
+      color-scheme: dark;
+    }
     body {
       background-color: #07090e;
-      color: #e2e8f0;
-      letter-spacing: 0;
+      color: #f1f5f9;
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.04) 0%, transparent 40%);
+      background-attachment: fixed;
     }
-    .ltr-content {
-      direction: ltr;
-      text-align: left;
+    html[lang="fa"] body {
+      font-family: 'Vazirmatn', sans-serif !important;
+      letter-spacing: 0 !important;
     }
-    .code-preview {
-      direction: ltr;
-      text-align: start;
-      font-family: 'JetBrains Mono', monospace;
+    .glass-card {
+      background: rgba(14, 19, 31, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(31, 41, 61, 0.8);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -10px rgba(2, 132, 199, 0.25);
+    }
+    .category-pill {
+      transition: all 0.2s ease;
+    }
+    .category-pill.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+      color: #38bdf8;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white">
+<body class="min-h-screen flex flex-col font-sans selection:bg-dex-accent selection:text-dex-base">
 
-  <!-- Header -->
-  <header class="border-b border-brand-border bg-brand-surface/70 backdrop-blur sticky top-0 z-50">
+  <!-- Top Announcement -->
+  <div class="border-b border-dex-border/60 bg-dex-surface/30 px-4 py-1.5 text-center text-xs font-mono text-slate-400">
+    <span id="topNotice">Universal Agent Registry &bull; Standalone HTTP API at <code class="text-dex-accent">/registry.json</code></span>
+  </div>
+
+  <!-- Navigation -->
+  <header class="border-b border-dex-border/80 bg-dex-base/80 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded border border-brand-electric/50 flex items-center justify-center font-mono font-bold text-brand-electric bg-brand-electric/10">
+      <div class="flex items-center gap-3.5">
+        <div class="w-9 h-9 rounded-lg border border-dex-accent/40 bg-dex-accent/10 flex items-center justify-center font-mono font-black text-dex-accent shadow-inner">
           AD
         </div>
-        <span class="font-mono text-lg font-bold tracking-tight text-white">AgentDex</span>
-        <span class="text-xs px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300 font-mono">v1.0</span>
+        <div>
+          <span class="font-mono text-lg font-bold text-white tracking-tight">AgentDex</span>
+          <span class="hidden sm:inline-block ms-2 text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-dex-border bg-dex-surface text-slate-400">Hub v1.0</span>
+        </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2.5">
         <!-- Language Switcher -->
-        <button id="langToggle" class="px-3 py-1.5 rounded border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-xs font-mono font-medium transition-colors text-slate-200">
-          English
+        <button id="langToggle" class="px-3 py-1.5 rounded-md border border-dex-border bg-dex-panel hover:border-slate-600 text-xs font-mono font-medium text-slate-200 transition-colors flex items-center gap-1.5">
+          <span id="langFlag">FA</span>
+          <span id="langName">فارسی</span>
         </button>
-        <a href="https://github.com/m4tinbeigi-official/agentdex" target="_blank" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-500 bg-slate-900 text-xs font-mono text-slate-300 transition-colors">
+
+        <a href="https://github.com/m4tinbeigi-official/agentdex" target="_blank" class="px-3.5 py-1.5 rounded-md border border-dex-border hover:border-slate-500 bg-slate-900 text-xs font-mono text-slate-200 transition-colors">
           GitHub
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Container -->
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-    <div class="max-w-3xl mb-10">
-      <h1 id="heroTitle" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-        رجیستری مهارت‌ها و رفتارهای هوش مصنوعی
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-dex-accent/30 bg-dex-accent/5 text-dex-accent text-xs font-mono mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-dex-accent animate-pulse"></span>
+        <span id="heroBadge">DECENTRALIZED AGENT CAPABILITIES REPO</span>
+      </div>
+      <h1 id="heroTitle" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
+        Universal AI Agent Skills & Knowledge Registry
       </h1>
-      <p id="heroSubtitle" class="text-slate-400 text-base leading-relaxed mb-6">
-        دایرکتوری جامع ابزارها، روش‌ها و مهارت‌های آماده برای هرمس، کلود، کرسر و ایجنت‌های خودمختار. همگام‌سازی خودکار پیش از اجرای تسک‌ها.
+      <p id="heroSubtitle" class="text-slate-400 text-base sm:text-lg leading-relaxed mb-6 font-normal">
+        Curated directory of specialized tools, reverse-engineering suites, linguistic humanizers, and autonomous behaviors for Hermes, Claude Code, Cursor, and custom agentic runtimes.
       </p>
 
-      <!-- Agent Integration Box -->
-      <div class="p-4 rounded-lg border border-brand-border bg-brand-surface">
+      <!-- Protocol Sync Command -->
+      <div class="p-4 rounded-xl border border-dex-border bg-dex-panel shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-32 h-32 bg-dex-accent/5 rounded-full blur-2xl pointer-events-none"></div>
         <div class="flex items-center justify-between mb-2">
-          <span id="autoSyncLabel" class="text-xs font-mono text-brand-electric uppercase tracking-wider">
-            دستور همگام‌سازی سریع برای ایجنت شما
-          </span>
-          <span class="text-[11px] font-mono text-slate-500">HTTP / Raw JSON</span>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-dex-success"></span>
+            <span id="autoSyncLabel" class="text-xs font-mono text-slate-300 font-semibold tracking-wider uppercase">
+              Agent Auto-Discovery Protocol
+            </span>
+          </div>
+          <span class="text-[11px] font-mono text-slate-500">JSON Endpoint</span>
         </div>
         <div class="relative flex items-center">
-          <input id="syncCommand" type="text" readonly dir="ltr" value="curl -s https://m4tinbeigi-official.github.io/agentdex/registry.json | jq" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs font-mono text-emerald-400 focus:outline-none">
-          <button onclick="copySyncCommand()" id="copyBtn" class="absolute end-1.5 px-2.5 py-1 text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700">
-            کپی
+          <input id="syncCommand" type="text" readonly dir="ltr" value="curl -s https://m4tinbeigi-official.github.io/agentdex/registry.json | jq" class="w-full bg-dex-base border border-slate-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-dex-accent focus:outline-none focus:border-dex-accent">
+          <button onclick="copySyncCommand()" id="copyBtn" class="absolute end-1.5 px-3 py-1.5 text-xs font-mono bg-dex-surface hover:bg-slate-700 text-white rounded-md border border-slate-700 transition-colors">
+            Copy
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Filter & Search Bar -->
-    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mb-8 pb-4 border-b border-slate-800">
-      <div class="w-full sm:w-96 relative">
-        <input id="searchInput" type="text" placeholder="جستجو در نام، تگ یا دسته‌بندی..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-colors">
+    <!-- Search & Category Filters -->
+    <div class="space-y-4 mb-8">
+      <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <div class="w-full sm:w-96 relative">
+          <input id="searchInput" type="text" placeholder="Search skills, tools, tags, repositories..." class="w-full bg-dex-panel border border-dex-border rounded-lg px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-dex-accent transition-colors">
+        </div>
+        
+        <!-- Metrics Counter -->
+        <div class="text-xs font-mono text-slate-400 self-end sm:self-center">
+          <span id="countLabel">Indexed Skills:</span> <span id="skillsCount" class="text-dex-accent font-bold">2</span>
+        </div>
       </div>
-      <div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-1">
-        <button class="filter-btn active px-3 py-1.5 rounded-md text-xs font-medium border border-brand-500 bg-brand-500/10 text-brand-electric" data-category="all">
-          <span class="text-content" data-key="all">همه مهارت‌ها</span>
+
+      <!-- Categories Filter Tabs -->
+      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoriesBar">
+        <button class="category-pill active px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium border border-dex-border bg-dex-panel text-slate-300" data-category="all">
+          <span class="cat-text" data-cat="all">All Categories</span>
         </button>
-        <button class="filter-btn px-3 py-1.5 rounded-md text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200" data-category="security">
-          <span class="text-content" data-key="sec">امنیت و مهندسی معکوس</span>
+        <button class="category-pill px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium border border-dex-border bg-dex-panel text-slate-400 hover:text-slate-200" data-category="security">
+          <span class="cat-text" data-cat="security">Security & Reversing</span>
         </button>
-        <button class="filter-btn px-3 py-1.5 rounded-md text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200" data-category="writing">
-          <span class="text-content" data-key="wri">نگارش و تحلیل محتوا</span>
+        <button class="category-pill px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium border border-dex-border bg-dex-panel text-slate-400 hover:text-slate-200" data-category="writing">
+          <span class="cat-text" data-cat="writing">Writing & Linguistics</span>
+        </button>
+        <button class="category-pill px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium border border-dex-border bg-dex-panel text-slate-400 hover:text-slate-200" data-category="agentic">
+          <span class="cat-text" data-cat="agentic">Autonomous AI</span>
+        </button>
+        <button class="category-pill px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium border border-dex-border bg-dex-panel text-slate-400 hover:text-slate-200" data-category="devops">
+          <span class="cat-text" data-cat="devops">DevOps & Cloud</span>
         </button>
       </div>
     </div>
 
     <!-- Skills Grid -->
-    <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <!-- Injected by JavaScript -->
+    <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected via JavaScript -->
     </div>
 
     <!-- Empty State -->
-    <div id="emptyState" class="hidden text-center py-16">
-      <p id="emptyText" class="text-slate-500 text-sm">هیچ مهارتی با این عبارت پیدا نشد.</p>
+    <div id="emptyState" class="hidden text-center py-20 border border-dashed border-dex-border rounded-xl">
+      <p id="emptyText" class="text-slate-500 text-sm font-mono">No matching skills found in directory.</p>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800 py-8 bg-brand-surface/40 mt-auto">
+  <footer class="border-t border-dex-border bg-dex-panel/40 py-10 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
-      <div>
-        <span>AgentDex Registry</span> &bull; <span>Open Source Knowledge Distribution</span>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-dex-accent"></span>
+        <span>AgentDex Registry &bull; Licensed for Public AI Agent Synchronization</span>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="https://github.com/m4tinbeigi-official/agentdex/blob/main/registry.json" target="_blank" class="hover:text-slate-300">registry.json</a>
-        <a href="https://github.com/m4tinbeigi-official/agentdex" target="_blank" class="hover:text-slate-300">Submit Skill</a>
+      <div class="flex items-center gap-5">
+        <a href="https://github.com/m4tinbeigi-official/agentdex/blob/main/registry.json" target="_blank" class="hover:text-dex-accent transition-colors">Raw JSON</a>
+        <a href="https://github.com/m4tinbeigi-official/agentdex/tree/main/skills" target="_blank" class="hover:text-dex-accent transition-colors">Browse Skills</a>
+        <a href="https://github.com/m4tinbeigi-official/agentdex" target="_blank" class="hover:text-dex-accent transition-colors">Submit PR</a>
       </div>
     </div>
   </footer>
 
   <script>
-    let currentLang = 'fa';
+    let currentLang = 'en'; // Default language is English
     let skillsData = [];
 
     const translations = {
-      fa: {
-        pageTitle: 'AgentDex — رجیستری جهانی مهارت‌های هوش مصنوعی',
-        heroTitle: 'رجیستری مهارت‌ها و ابزارهای هوش مصنوعی',
-        heroSubtitle: 'دایرکتوری جامع متدها و توانمندی‌های اختصاصی برای هرمس، کلود، کرسر و ایجنت‌های خودمختار. بررسی دایرکتوری قبل از اجرای هر تسک به منظور خودکارسازی یادگیری.',
-        autoSyncLabel: 'دستور اتصال خودکار برای ایجنت شما',
-        searchPlaceholder: 'جستجو در نام، تگ یا دسته‌بندی...',
-        all: 'همه مهارت‌ها',
-        sec: 'امنیت و مهندسی معکوس',
-        wri: 'نگارش و پردازش متن',
-        copy: 'کپی',
-        copied: 'کپی شد',
-        source: 'مخزن اصلی',
-        viewSkill: 'مشاهده SKILL.md',
-        installCommand: 'نصب در هرمس',
-        empty: 'هیچ مهارتی با این عبارت پیدا نشد.'
-      },
       en: {
-        pageTitle: 'AgentDex — Universal AI Agent Skills Registry',
+        pageTitle: 'AgentDex — Universal AI Agent Skills & Capabilities Registry',
+        topNotice: 'Universal Agent Registry • Standalone HTTP API at <code class="text-dex-accent">/registry.json</code>',
+        heroBadge: 'DECENTRALIZED AGENT CAPABILITIES REPO',
         heroTitle: 'Universal AI Agent Skills & Knowledge Registry',
-        heroSubtitle: 'Open directory of specialized capabilities, security tools, and workflows for Hermes, Claude Code, Cursor, and autonomous agents. Auto-discovered and loaded before task execution.',
-        autoSyncLabel: 'Quick Auto-Sync Command for Agents',
-        searchPlaceholder: 'Search name, tags, or category...',
-        all: 'All Skills',
-        sec: 'Security & Reversing',
-        wri: 'Writing & Text Processing',
+        heroSubtitle: 'Curated directory of specialized tools, reverse-engineering suites, linguistic humanizers, and autonomous behaviors for Hermes, Claude Code, Cursor, and custom agentic runtimes.',
+        autoSyncLabel: 'Agent Auto-Discovery Protocol',
+        searchPlaceholder: 'Search skills, tools, tags, repositories...',
+        countLabel: 'Indexed Skills:',
+        categories: {
+          all: 'All Categories',
+          security: 'Security & Reversing',
+          writing: 'Writing & Linguistics',
+          agentic: 'Autonomous AI',
+          devops: 'DevOps & Cloud'
+        },
         copy: 'Copy',
         copied: 'Copied',
         source: 'Source Repo',
-        viewSkill: 'View SKILL.md',
-        installCommand: 'Install in Hermes',
-        empty: 'No skills found matching this criteria.'
+        viewSkill: 'Inspect SKILL.md',
+        compatibility: 'Compatibility',
+        empty: 'No matching skills found in directory.'
+      },
+      fa: {
+        pageTitle: 'ایجنت‌دکس — دایرکتوری و رجیستری جهانی مهارت‌های هوش مصنوعی',
+        topNotice: 'رجیستری جهانی مهارت‌های هوش مصنوعی • وب‌سرویس مستقیم روی <code class="text-dex-accent">registry.json/</code>',
+        heroBadge: 'رجیستری نامتمرکز مهارت‌های تخصصی ایجنت‌ها',
+        heroTitle: 'رجیستری جامع مهارت‌ها و رفتارهای هوش مصنوعی',
+        heroSubtitle: 'دایرکتوری ابزارهای مهندسی معکوس، طبیعی‌سازی متون، تحلیل امنیتی و جریان‌های کاری خودمختار برای هرمس، کلود، کرسر و ایجنت‌های پیشرفته.',
+        autoSyncLabel: 'پروتکل استعلام و اتصال خودکار ایجنت‌ها',
+        searchPlaceholder: 'جستجو در مهارت‌ها، ابزارها، برچسب‌ها و مخازن...',
+        countLabel: 'مهارت‌های ثبت‌شده:',
+        categories: {
+          all: 'همه دسته‌ها',
+          security: 'امنیت و مهندسی معکوس',
+          writing: 'نگارش و زبان‌شناسی',
+          agentic: 'هوش مصنوعی خودمختار',
+          devops: 'زیرساخت و دِوآپس'
+        },
+        copy: 'کپی',
+        copied: 'کپی شد',
+        source: 'مخزن اصلی',
+        viewSkill: 'مشاهده فایل SKILL.md',
+        compatibility: 'سازگاری',
+        empty: 'هیچ مهارتی با این مشخصات در دایرکتوری یافت نشد.'
       }
     };
 
@@ -190,33 +265,38 @@
       if (lang === 'fa') {
         html.setAttribute('dir', 'rtl');
         html.setAttribute('lang', 'fa');
-        document.body.style.fontFamily = "'Vazirmatn', sans-serif";
-        document.getElementById('langToggle').textContent = 'English';
+        document.getElementById('langFlag').textContent = 'EN';
+        document.getElementById('langName').textContent = 'English';
       } else {
         html.setAttribute('dir', 'ltr');
         html.setAttribute('lang', 'en');
-        document.body.style.fontFamily = "ui-sans-serif, system-ui, sans-serif";
-        document.getElementById('langToggle').textContent = 'فارسی';
+        document.getElementById('langFlag').textContent = 'FA';
+        document.getElementById('langName').textContent = 'فارسی';
       }
 
       document.title = t.pageTitle;
+      document.getElementById('topNotice').innerHTML = t.topNotice;
+      document.getElementById('heroBadge').textContent = t.heroBadge;
       document.getElementById('heroTitle').textContent = t.heroTitle;
       document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
       document.getElementById('autoSyncLabel').textContent = t.autoSyncLabel;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('countLabel').textContent = t.countLabel;
       document.getElementById('copyBtn').textContent = t.copy;
       document.getElementById('emptyText').textContent = t.empty;
 
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (t[key]) el.textContent = t[key];
+      document.querySelectorAll('[data-cat]').forEach(el => {
+        const catKey = el.getAttribute('data-cat');
+        if (t.categories[catKey]) {
+          el.textContent = t.categories[catKey];
+        }
       });
 
       renderSkills();
     }
 
     document.getElementById('langToggle').addEventListener('click', () => {
-      setLanguage(currentLang === 'fa' ? 'en' : 'fa');
+      setLanguage(currentLang === 'en' ? 'fa' : 'en');
     });
 
     async function loadData() {
@@ -224,24 +304,33 @@
         const res = await fetch('registry.json');
         const data = await res.json();
         skillsData = data.skills || [];
+        document.getElementById('skillsCount').textContent = skillsData.length;
         renderSkills();
       } catch (err) {
         console.error('Failed to load registry:', err);
       }
     }
 
+    const categoryColorMap = {
+      security: { border: 'border-dex-rose/30', badge: 'text-dex-rose bg-dex-rose/10 border-dex-rose/30' },
+      writing: { border: 'border-dex-accent/30', badge: 'text-dex-accent bg-dex-accent/10 border-dex-accent/30' },
+      agentic: { border: 'border-dex-violet/30', badge: 'text-dex-violet bg-dex-violet/10 border-dex-violet/30' },
+      devops: { border: 'border-dex-amber/30', badge: 'text-dex-amber bg-dex-amber/10 border-dex-amber/30' },
+    };
+
     function renderSkills() {
       const grid = document.getElementById('skillsGrid');
       const empty = document.getElementById('emptyState');
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
-      const activeFilter = document.querySelector('.filter-btn.active').dataset.category;
+      const activeBtn = document.querySelector('.category-pill.active');
+      const activeFilter = activeBtn ? activeBtn.dataset.category : 'all';
       const t = translations[currentLang];
 
       const filtered = skillsData.filter(skill => {
         const matchCategory = (activeFilter === 'all' || skill.category === activeFilter);
         const nameText = (typeof skill.name === 'object' ? (skill.name[currentLang] || skill.name.en) : skill.name).toLowerCase();
         const summaryText = (typeof skill.summary === 'object' ? (skill.summary[currentLang] || skill.summary.en) : skill.summary).toLowerCase();
-        const tagMatch = (skill.tags || []).some(t => t.toLowerCase().includes(query));
+        const tagMatch = (skill.tags || []).some(tg => tg.toLowerCase().includes(query));
         const matchQuery = !query || nameText.includes(query) || summaryText.includes(query) || tagMatch || skill.id.includes(query);
         return matchCategory && matchQuery;
       });
@@ -256,29 +345,41 @@
       grid.innerHTML = filtered.map(skill => {
         const title = typeof skill.name === 'object' ? (skill.name[currentLang] || skill.name.en) : skill.name;
         const summary = typeof skill.summary === 'object' ? (skill.summary[currentLang] || skill.summary.en) : skill.summary;
-        const tags = (skill.tags || []).map(tag => `<span class="px-2 py-0.5 rounded bg-slate-800 text-[11px] font-mono text-slate-400">#${tag}</span>`).join(' ');
+        const tags = (skill.tags || []).map(tag => `<span class="px-2 py-0.5 rounded bg-dex-surface/80 text-[11px] font-mono text-slate-400 border border-slate-800">#${tag}</span>`).join(' ');
+        const compat = (skill.compatibility || []).map(c => `<span class="text-[10px] font-mono text-slate-500 uppercase">${c}</span>`).join(' &bull; ');
+        
+        const catStyle = categoryColorMap[skill.category] || { border: 'border-dex-border', badge: 'text-dex-accent bg-dex-accent/10 border-dex-border' };
 
         return `
-          <div class="flex flex-col justify-between p-5 rounded-lg border border-slate-800 bg-slate-900/60 hover:border-slate-700 transition-all">
+          <div class="glass-card rounded-xl p-6 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between gap-2 mb-3">
-                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-brand-electric">
+                <span class="text-[11px] font-mono uppercase px-2.5 py-0.5 rounded border ${catStyle.badge}">
                   ${skill.category}
                 </span>
                 <span class="text-[10px] font-mono text-slate-500">${skill.id}</span>
               </div>
-              <h3 class="text-base font-bold text-white mb-2 leading-snug">${title}</h3>
+              
+              <h3 class="text-base sm:text-lg font-bold text-white mb-2 leading-snug tracking-tight">${title}</h3>
               <p class="text-xs text-slate-400 leading-relaxed mb-4">${summary}</p>
+              
               <div class="flex flex-wrap gap-1.5 mb-4">
                 ${tags}
               </div>
             </div>
 
-            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-              <a href="${skill.path}" target="_blank" class="text-brand-electric hover:underline">
-                ${t.viewSkill} &rarr;
-              </a>
-              ${skill.source_repo ? `<a href="${skill.source_repo}" target="_blank" class="text-slate-400 hover:text-slate-200">${t.source}</a>` : ''}
+            <div>
+              <div class="py-2.5 border-t border-dex-border/80 flex items-center justify-between text-[11px] font-mono text-slate-500 mb-2">
+                <span>${t.compatibility}:</span>
+                <div class="flex items-center gap-1.5">${compat}</div>
+              </div>
+
+              <div class="pt-2 border-t border-dex-border/60 flex items-center justify-between text-xs font-mono">
+                <a href="${skill.path}" target="_blank" class="text-dex-accent hover:underline flex items-center gap-1">
+                  <span>${t.viewSkill}</span> &rarr;
+                </a>
+                ${skill.source_repo ? `<a href="${skill.source_repo}" target="_blank" class="text-slate-400 hover:text-white transition-colors">${t.source}</a>` : ''}
+              </div>
             </div>
           </div>
         `;
@@ -296,18 +397,21 @@
 
     document.getElementById('searchInput').addEventListener('input', renderSkills);
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    document.querySelectorAll('.category-pill').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => {
-          b.classList.remove('active', 'border-brand-500', 'bg-brand-500/10', 'text-brand-electric');
-          b.classList.add('border-slate-800', 'bg-slate-900', 'text-slate-400');
+        document.querySelectorAll('.category-pill').forEach(b => {
+          b.classList.remove('active');
+          b.classList.remove('text-dex-accent');
+          b.classList.add('text-slate-400');
         });
-        btn.classList.add('active', 'border-brand-500', 'bg-brand-500/10', 'text-brand-electric');
-        btn.classList.remove('border-slate-800', 'bg-slate-900', 'text-slate-400');
+        btn.classList.add('active');
+        btn.classList.remove('text-slate-400');
         renderSkills();
       });
     });
 
+    // Start with English default
+    setLanguage('en');
     loadData();
   </script>
 </body>
