@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentDex — Universal AI Agent Skills Registry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#4f46e5',
+              600: '#4338ca',
+              electric: '#00f0ff',
+              dark: '#0a0d14',
+              surface: '#111726',
+              border: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #07090e;
+      color: #e2e8f0;
+      letter-spacing: 0;
+    }
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+    }
+    .code-preview {
+      direction: ltr;
+      text-align: start;
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-brand-border bg-brand-surface/70 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded border border-brand-electric/50 flex items-center justify-center font-mono font-bold text-brand-electric bg-brand-electric/10">
+          AD
+        </div>
+        <span class="font-mono text-lg font-bold tracking-tight text-white">AgentDex</span>
+        <span class="text-xs px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300 font-mono">v1.0</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Language Switcher -->
+        <button id="langToggle" class="px-3 py-1.5 rounded border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-xs font-mono font-medium transition-colors text-slate-200">
+          English
+        </button>
+        <a href="https://github.com/m4tinbeigi-official/agentdex" target="_blank" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-500 bg-slate-900 text-xs font-mono text-slate-300 transition-colors">
+          GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    <div class="max-w-3xl mb-10">
+      <h1 id="heroTitle" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+        رجیستری مهارت‌ها و رفتارهای هوش مصنوعی
+      </h1>
+      <p id="heroSubtitle" class="text-slate-400 text-base leading-relaxed mb-6">
+        دایرکتوری جامع ابزارها، روش‌ها و مهارت‌های آماده برای هرمس، کلود، کرسر و ایجنت‌های خودمختار. همگام‌سازی خودکار پیش از اجرای تسک‌ها.
+      </p>
+
+      <!-- Agent Integration Box -->
+      <div class="p-4 rounded-lg border border-brand-border bg-brand-surface">
+        <div class="flex items-center justify-between mb-2">
+          <span id="autoSyncLabel" class="text-xs font-mono text-brand-electric uppercase tracking-wider">
+            دستور همگام‌سازی سریع برای ایجنت شما
+          </span>
+          <span class="text-[11px] font-mono text-slate-500">HTTP / Raw JSON</span>
+        </div>
+        <div class="relative flex items-center">
+          <input id="syncCommand" type="text" readonly dir="ltr" value="curl -s https://m4tinbeigi-official.github.io/agentdex/registry.json | jq" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs font-mono text-emerald-400 focus:outline-none">
+          <button onclick="copySyncCommand()" id="copyBtn" class="absolute end-1.5 px-2.5 py-1 text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700">
+            کپی
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mb-8 pb-4 border-b border-slate-800">
+      <div class="w-full sm:w-96 relative">
+        <input id="searchInput" type="text" placeholder="جستجو در نام، تگ یا دسته‌بندی..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-colors">
+      </div>
+      <div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-1">
+        <button class="filter-btn active px-3 py-1.5 rounded-md text-xs font-medium border border-brand-500 bg-brand-500/10 text-brand-electric" data-category="all">
+          <span class="text-content" data-key="all">همه مهارت‌ها</span>
+        </button>
+        <button class="filter-btn px-3 py-1.5 rounded-md text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200" data-category="security">
+          <span class="text-content" data-key="sec">امنیت و مهندسی معکوس</span>
+        </button>
+        <button class="filter-btn px-3 py-1.5 rounded-md text-xs font-medium border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200" data-category="writing">
+          <span class="text-content" data-key="wri">نگارش و تحلیل محتوا</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Skills Grid -->
+    <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Injected by JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-16">
+      <p id="emptyText" class="text-slate-500 text-sm">هیچ مهارتی با این عبارت پیدا نشد.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-8 bg-brand-surface/40 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+      <div>
+        <span>AgentDex Registry</span> &bull; <span>Open Source Knowledge Distribution</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/m4tinbeigi-official/agentdex/blob/main/registry.json" target="_blank" class="hover:text-slate-300">registry.json</a>
+        <a href="https://github.com/m4tinbeigi-official/agentdex" target="_blank" class="hover:text-slate-300">Submit Skill</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'fa';
+    let skillsData = [];
+
+    const translations = {
+      fa: {
+        pageTitle: 'AgentDex — رجیستری جهانی مهارت‌های هوش مصنوعی',
+        heroTitle: 'رجیستری مهارت‌ها و ابزارهای هوش مصنوعی',
+        heroSubtitle: 'دایرکتوری جامع متدها و توانمندی‌های اختصاصی برای هرمس، کلود، کرسر و ایجنت‌های خودمختار. بررسی دایرکتوری قبل از اجرای هر تسک به منظور خودکارسازی یادگیری.',
+        autoSyncLabel: 'دستور اتصال خودکار برای ایجنت شما',
+        searchPlaceholder: 'جستجو در نام، تگ یا دسته‌بندی...',
+        all: 'همه مهارت‌ها',
+        sec: 'امنیت و مهندسی معکوس',
+        wri: 'نگارش و پردازش متن',
+        copy: 'کپی',
+        copied: 'کپی شد',
+        source: 'مخزن اصلی',
+        viewSkill: 'مشاهده SKILL.md',
+        installCommand: 'نصب در هرمس',
+        empty: 'هیچ مهارتی با این عبارت پیدا نشد.'
+      },
+      en: {
+        pageTitle: 'AgentDex — Universal AI Agent Skills Registry',
+        heroTitle: 'Universal AI Agent Skills & Knowledge Registry',
+        heroSubtitle: 'Open directory of specialized capabilities, security tools, and workflows for Hermes, Claude Code, Cursor, and autonomous agents. Auto-discovered and loaded before task execution.',
+        autoSyncLabel: 'Quick Auto-Sync Command for Agents',
+        searchPlaceholder: 'Search name, tags, or category...',
+        all: 'All Skills',
+        sec: 'Security & Reversing',
+        wri: 'Writing & Text Processing',
+        copy: 'Copy',
+        copied: 'Copied',
+        source: 'Source Repo',
+        viewSkill: 'View SKILL.md',
+        installCommand: 'Install in Hermes',
+        empty: 'No skills found matching this criteria.'
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const html = document.documentElement;
+      const t = translations[lang];
+
+      if (lang === 'fa') {
+        html.setAttribute('dir', 'rtl');
+        html.setAttribute('lang', 'fa');
+        document.body.style.fontFamily = "'Vazirmatn', sans-serif";
+        document.getElementById('langToggle').textContent = 'English';
+      } else {
+        html.setAttribute('dir', 'ltr');
+        html.setAttribute('lang', 'en');
+        document.body.style.fontFamily = "ui-sans-serif, system-ui, sans-serif";
+        document.getElementById('langToggle').textContent = 'فارسی';
+      }
+
+      document.title = t.pageTitle;
+      document.getElementById('heroTitle').textContent = t.heroTitle;
+      document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
+      document.getElementById('autoSyncLabel').textContent = t.autoSyncLabel;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('copyBtn').textContent = t.copy;
+      document.getElementById('emptyText').textContent = t.empty;
+
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (t[key]) el.textContent = t[key];
+      });
+
+      renderSkills();
+    }
+
+    document.getElementById('langToggle').addEventListener('click', () => {
+      setLanguage(currentLang === 'fa' ? 'en' : 'fa');
+    });
+
+    async function loadData() {
+      try {
+        const res = await fetch('registry.json');
+        const data = await res.json();
+        skillsData = data.skills || [];
+        renderSkills();
+      } catch (err) {
+        console.error('Failed to load registry:', err);
+      }
+    }
+
+    function renderSkills() {
+      const grid = document.getElementById('skillsGrid');
+      const empty = document.getElementById('emptyState');
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const activeFilter = document.querySelector('.filter-btn.active').dataset.category;
+      const t = translations[currentLang];
+
+      const filtered = skillsData.filter(skill => {
+        const matchCategory = (activeFilter === 'all' || skill.category === activeFilter);
+        const nameText = (typeof skill.name === 'object' ? (skill.name[currentLang] || skill.name.en) : skill.name).toLowerCase();
+        const summaryText = (typeof skill.summary === 'object' ? (skill.summary[currentLang] || skill.summary.en) : skill.summary).toLowerCase();
+        const tagMatch = (skill.tags || []).some(t => t.toLowerCase().includes(query));
+        const matchQuery = !query || nameText.includes(query) || summaryText.includes(query) || tagMatch || skill.id.includes(query);
+        return matchCategory && matchQuery;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      grid.innerHTML = filtered.map(skill => {
+        const title = typeof skill.name === 'object' ? (skill.name[currentLang] || skill.name.en) : skill.name;
+        const summary = typeof skill.summary === 'object' ? (skill.summary[currentLang] || skill.summary.en) : skill.summary;
+        const tags = (skill.tags || []).map(tag => `<span class="px-2 py-0.5 rounded bg-slate-800 text-[11px] font-mono text-slate-400">#${tag}</span>`).join(' ');
+
+        return `
+          <div class="flex flex-col justify-between p-5 rounded-lg border border-slate-800 bg-slate-900/60 hover:border-slate-700 transition-all">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-brand-electric">
+                  ${skill.category}
+                </span>
+                <span class="text-[10px] font-mono text-slate-500">${skill.id}</span>
+              </div>
+              <h3 class="text-base font-bold text-white mb-2 leading-snug">${title}</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mb-4">${summary}</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                ${tags}
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+              <a href="${skill.path}" target="_blank" class="text-brand-electric hover:underline">
+                ${t.viewSkill} &rarr;
+              </a>
+              ${skill.source_repo ? `<a href="${skill.source_repo}" target="_blank" class="text-slate-400 hover:text-slate-200">${t.source}</a>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copySyncCommand() {
+      const input = document.getElementById('syncCommand');
+      navigator.clipboard.writeText(input.value);
+      const btn = document.getElementById('copyBtn');
+      const orig = btn.textContent;
+      btn.textContent = translations[currentLang].copied;
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', renderSkills);
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('active', 'border-brand-500', 'bg-brand-500/10', 'text-brand-electric');
+          b.classList.add('border-slate-800', 'bg-slate-900', 'text-slate-400');
+        });
+        btn.classList.add('active', 'border-brand-500', 'bg-brand-500/10', 'text-brand-electric');
+        btn.classList.remove('border-slate-800', 'bg-slate-900', 'text-slate-400');
+        renderSkills();
+      });
+    });
+
+    loadData();
+  </script>
+</body>
+</html>

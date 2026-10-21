@@ -1,0 +1,73 @@
+{
+  "$schema": "https://agentdex.dev/schema/v1.json",
+  "name": "AgentDex",
+  "title": {
+    "en": "AgentDex — Universal AI Agent Skills & Knowledge Registry",
+    "fa": "ایجنت‌دکس — رجیستری جهانی مهارت‌ها و رفتارهای هوش مصنوعی"
+  },
+  "description": {
+    "en": "Universal index of specialized capabilities, security tools, and workflows for Hermes, Claude Code, Cursor, and custom autonomous agents.",
+    "fa": "دایرکتوری جامع ابزارها، روش‌ها و مهارت‌های تخصصی برای هرمس، کلود، کرسر و ایجنت‌های خودمختار."
+  },
+  "version": "1.0.0",
+  "api_endpoint": "https://m4tinbeigi-official.github.io/agentdex/registry.json",
+  "skills": [
+    {
+      "id": "ghidra-decompiler-triage",
+      "name": {
+        "en": "Ghidra Reverse Engineering & Binary Triage",
+        "fa": "مهندسی معکوس و تحلیل باینری با گیدرا"
+      },
+      "category": "security",
+      "tags": [
+        "ghidra",
+        "reverse-engineering",
+        "binary",
+        "decompiler",
+        "p-code",
+        "malware"
+      ],
+      "summary": {
+        "en": "Analyze compiled binaries, headless decompilation, and p-code emulation based on NSA Ghidra.",
+        "fa": "تحلیل باینری‌های کامپایل‌شده، دیکامپایل هدلس و بررسی کلوژر سطح بالا بر پایه گیدرا."
+      },
+      "source_repo": "https://github.com/NationalSecurityAgency/ghidra",
+      "path": "skills/security/ghidra-decompiler-triage/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "cursor",
+        "codex",
+        "autogen"
+      ]
+    },
+    {
+      "id": "turnitout-text-humanizer",
+      "name": {
+        "en": "Turnitout AI Text Humanizer",
+        "fa": "طبیعی‌ساز متن و عبور از فیلتر دتکتورهای هوش مصنوعی"
+      },
+      "category": "writing",
+      "tags": [
+        "humanizer",
+        "turnitin",
+        "gptzero",
+        "writing",
+        "burstiness",
+        "perplexity"
+      ],
+      "summary": {
+        "en": "Humanize AI text by manipulating perplexity and burstiness to bypass detectors like Turnitin and GPTZero.",
+        "fa": "طبیعی‌سازی متون هوش مصنوعی از طریق دستکاری پیچیدگی و تنوع جملات جهت عبور از ردیاب‌ها."
+      },
+      "source_repo": "https://github.com/AhmadHassan-BTed/Turnitout-Humanizer",
+      "path": "skills/writing/turnitout-text-humanizer/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "chatgpt",
+        "cursor"
+      ]
+    }
+  ]
+}
