@@ -9,9 +9,111 @@
     "en": "Universal index of specialized capabilities, security tools, and workflows for Hermes, Claude Code, Cursor, and custom autonomous agents.",
     "fa": "دایرکتوری جامع ابزارها، روش‌ها و مهارت‌های تخصصی برای هرمس، کلود، کرسر و ایجنت‌های خودمختار."
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "api_endpoint": "https://m4tinbeigi-official.github.io/agentdex/registry.json",
   "skills": [
+    {
+      "id": "browser-use-web-agent",
+      "name": {
+        "en": "Browser-Use Autonomous Web Agent Framework",
+        "fa": "فریم‌ورک عامل‌محور کنترل مرورگر و وب با هوش مصنوعی"
+      },
+      "category": "agentic",
+      "tags": [
+        "browser-use",
+        "autonomous-agent",
+        "vision",
+        "web-agent"
+      ],
+      "summary": {
+        "en": "Enable AI models to see, interact, click, and navigate websites autonomously using accessibility trees.",
+        "fa": "هدایت خودکار مرورگر و کلیک و پیمایش وب بر اساس ساختار درختی در دسترس‌پذیری."
+      },
+      "source_repo": "https://github.com/browser-use/browser-use",
+      "path": "skills/agentic/browser-use-web-agent/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "langchain"
+      ]
+    },
+    {
+      "id": "crewai-multi-agent-orchestrator",
+      "name": {
+        "en": "CrewAI Autonomous Multi-Agent Orchestrator",
+        "fa": "ارکستراسیون سیستم‌های چندعاملی هوش مصنوعی با CrewAI"
+      },
+      "category": "agentic",
+      "tags": [
+        "crewai",
+        "multi-agent",
+        "orchestration",
+        "autonomous"
+      ],
+      "summary": {
+        "en": "Framework for orchestrating role-playing autonomous AI agents that collaborate to solve complex missions.",
+        "fa": "معماری تیم‌های هوشمند ایجنت با نقش‌های تخصصی برای انجام کارهای پیچیده."
+      },
+      "source_repo": "https://github.com/crewAIInc/crewAI",
+      "path": "skills/agentic/crewai-multi-agent-orchestrator/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "python"
+      ]
+    },
+    {
+      "id": "docker-lean-containerization",
+      "name": {
+        "en": "Minimal Docker Multi-Stage Containerization",
+        "fa": "کانتینرسازی بهینه و چندمرحله‌ای داکر"
+      },
+      "category": "devops",
+      "tags": [
+        "docker",
+        "devops",
+        "container",
+        "alpine",
+        "multi-stage"
+      ],
+      "summary": {
+        "en": "Production-grade multi-stage Docker build patterns for minimal footprint, rootless security, and caching.",
+        "fa": "الگوهای استاندارد ساخت ایمیج‌های فوق‌سبک و امن با داکر."
+      },
+      "source_repo": "https://github.com/docker/awesome-compose",
+      "path": "skills/devops/docker-lean-containerization/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "cursor"
+      ]
+    },
+    {
+      "id": "playwright-browser-crawler",
+      "name": {
+        "en": "Playwright Headless Browser Automation & Scraping",
+        "fa": "اتوماسیون مرورگر هدلس و اسکرپینگ با پلی‌رایت"
+      },
+      "category": "devops",
+      "tags": [
+        "playwright",
+        "scraping",
+        "headless-browser",
+        "automation"
+      ],
+      "summary": {
+        "en": "Resilient browser control, stealth scraping, DOM evaluation, and PDF rendering using Playwright.",
+        "fa": "کنترل هوشمند مرورگر، وب‌اسکرپینگ و استخراج DOM با Playwright."
+      },
+      "source_repo": "https://github.com/microsoft/playwright",
+      "path": "skills/devops/playwright-browser-crawler/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "cursor",
+        "browser-use"
+      ]
+    },
     {
       "id": "ghidra-decompiler-triage",
       "name": {
@@ -24,12 +126,11 @@
         "reverse-engineering",
         "binary",
         "decompiler",
-        "p-code",
-        "malware"
+        "p-code"
       ],
       "summary": {
-        "en": "Analyze compiled binaries, headless decompilation, and p-code emulation based on NSA Ghidra.",
-        "fa": "تحلیل باینری‌های کامپایل‌شده، دیکامپایل هدلس و بررسی کلوژر سطح بالا بر پایه گیدرا."
+        "en": "Headless decompilation, p-code emulation, and reverse engineering based on NSA Ghidra.",
+        "fa": "دیکامپایل هدلس و تحلیل کد باینری بر پایه گیدرا."
       },
       "source_repo": "https://github.com/NationalSecurityAgency/ghidra",
       "path": "skills/security/ghidra-decompiler-triage/SKILL.md",
@@ -37,15 +138,65 @@
         "hermes",
         "claude-code",
         "cursor",
-        "codex",
-        "autogen"
+        "codex"
+      ]
+    },
+    {
+      "id": "radare2-binary-analysis",
+      "name": {
+        "en": "Radare2 UNIX-Way Reverse Engineering & Disassembly",
+        "fa": "مهندسی معکوس و دیس‌اسمبل با راداره۲"
+      },
+      "category": "security",
+      "tags": [
+        "radare2",
+        "reverse-engineering",
+        "disassembler",
+        "binary",
+        "hex"
+      ],
+      "summary": {
+        "en": "CLI-first reverse engineering framework, ELF/PE disassembly, hex editing, and binary diffing.",
+        "fa": "فریم‌ورک خط‌فرمانی تحلیل باینری، دیکامپایل و دیس‌اسمبلی."
+      },
+      "source_repo": "https://github.com/radareorg/radare2",
+      "path": "skills/security/radare2-binary-analysis/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code",
+        "cursor"
+      ]
+    },
+    {
+      "id": "sqlmap-automated-pentest",
+      "name": {
+        "en": "SQLMap Automated SQL Injection & DB Takeover",
+        "fa": "ارزیابی امنیتی تزریق پایگاه داده با SQLMap"
+      },
+      "category": "security",
+      "tags": [
+        "sqlmap",
+        "pentest",
+        "sqli",
+        "security",
+        "database"
+      ],
+      "summary": {
+        "en": "Automatic detection and exploitation of SQL injection flaws and taking over of database servers.",
+        "fa": "کشف و ارزیابی خودکار باگ‌های تزریق به پایگاه داده با ابزار SQLMap."
+      },
+      "source_repo": "https://github.com/sqlmapproject/sqlmap",
+      "path": "skills/security/sqlmap-automated-pentest/SKILL.md",
+      "compatibility": [
+        "hermes",
+        "claude-code"
       ]
     },
     {
       "id": "turnitout-text-humanizer",
       "name": {
         "en": "Turnitout AI Text Humanizer",
-        "fa": "طبیعی‌ساز متن و عبور از فیلتر دتکتورهای هوش مصنوعی"
+        "fa": "طبیعی‌ساز متن و دور زدن دتکتورهای هوش مصنوعی"
       },
       "category": "writing",
       "tags": [
@@ -53,20 +204,18 @@
         "turnitin",
         "gptzero",
         "writing",
-        "burstiness",
-        "perplexity"
+        "burstiness"
       ],
       "summary": {
-        "en": "Humanize AI text by manipulating perplexity and burstiness to bypass detectors like Turnitin and GPTZero.",
-        "fa": "طبیعی‌سازی متون هوش مصنوعی از طریق دستکاری پیچیدگی و تنوع جملات جهت عبور از ردیاب‌ها."
+        "en": "Humanize AI text by manipulating perplexity and burstiness to bypass detectors like Turnitin.",
+        "fa": "طبیعی‌سازی متون AI از طریق تغییر پیچیدگی جملات جهت عبور از Turnitin."
       },
       "source_repo": "https://github.com/AhmadHassan-BTed/Turnitout-Humanizer",
       "path": "skills/writing/turnitout-text-humanizer/SKILL.md",
       "compatibility": [
         "hermes",
         "claude-code",
-        "chatgpt",
-        "cursor"
+        "chatgpt"
       ]
     }
   ]

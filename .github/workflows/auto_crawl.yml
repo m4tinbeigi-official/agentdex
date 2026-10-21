@@ -1,0 +1,36 @@
+name: Scheduled Skills Ingestion & Crawler
+
+on:
+  schedule:
+    # Run every Sunday at 03:00 UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  crawl-and-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Crawler Pipeline
+        run: |
+          python scripts/crawl_github_skills.py
+          python scripts/build_registry.py
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "AgentDex Bot"
+          git config --global user.email "bot@agentdex.dev"
+          git add skills/ registry.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(auto): ingested trending skills and updated registry" && git push)
