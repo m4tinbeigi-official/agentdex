@@ -9,7 +9,7 @@
     "en": "Universal index of specialized capabilities, security tools, and workflows for Hermes, Claude Code, Cursor, and custom autonomous agents.",
     "fa": "دایرکتوری جامع ابزارها، روش‌ها و مهارت‌های تخصصی برای هرمس، کلود، کرسر و ایجنت‌های خودمختار."
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "api_endpoint": "https://m4tinbeigi-official.github.io/agentdex/registry.json",
   "skills": [
     {
@@ -112,6 +112,102 @@
         "claude-code",
         "cursor",
         "browser-use"
+      ]
+    },
+    {
+      "id": "hermes-memory-consolidation",
+      "name": {
+        "en": "Hermes Persistent Memory Consolidation",
+        "fa": "مدیریت و متراکم‌سازی حافظه پایدار هرمس"
+      },
+      "category": "hermes",
+      "tags": [
+        "hermes",
+        "memory",
+        "state",
+        "optimization",
+        "guardrails"
+      ],
+      "summary": {
+        "en": "Advanced memory optimization, atomic batch consolidation, and character budget guardrails for Hermes Agent.",
+        "fa": "بهینه‌سازی حافظه پایدار هرمس، تجمیع اتمیک حقایق و مدیریت بودجه کاراکتر."
+      },
+      "source_repo": "https://github.com/NousResearch/hermes-agent",
+      "path": "skills/hermes/hermes-memory-consolidation/SKILL.md",
+      "compatibility": [
+        "hermes"
+      ]
+    },
+    {
+      "id": "hermes-recursive-self-healing",
+      "name": {
+        "en": "Hermes Recursive Self-Healing & Error Recovery",
+        "fa": "خودترمیمی بازگشتی و بازیابی خطای هرمس"
+      },
+      "category": "hermes",
+      "tags": [
+        "hermes",
+        "self-healing",
+        "error-recovery",
+        "debugging",
+        "agent-ops"
+      ],
+      "summary": {
+        "en": "Autonomous 4-phase error recovery, root-cause isolation, and self-patching for Hermes tool and code failures.",
+        "fa": "پروتکل خودکار ۴ مرحله‌ای ریشه‌یابی و پچ خطاهای ابزارها و اجرای کد در هرمس."
+      },
+      "source_repo": "https://github.com/NousResearch/hermes-agent",
+      "path": "skills/hermes/hermes-recursive-self-healing/SKILL.md",
+      "compatibility": [
+        "hermes"
+      ]
+    },
+    {
+      "id": "hermes-stealth-browser-ops",
+      "name": {
+        "en": "Hermes Stealth Browser Operations",
+        "fa": "عملیات مرورگر هوشمند و هدلس هرمس"
+      },
+      "category": "hermes",
+      "tags": [
+        "hermes",
+        "browser-exec",
+        "cdp",
+        "scraping",
+        "stealth"
+      ],
+      "summary": {
+        "en": "Resilient browser automation using Chrome DevTools Protocol, accessibility trees, and DOM evaluation inside Hermes browser_exec.",
+        "fa": "اتوماسیون وب با درخت در دسترس‌پذیری و پروتکل CDP داخل ران‌تایم مرورگر هرمس."
+      },
+      "source_repo": "https://github.com/NousResearch/hermes-agent",
+      "path": "skills/hermes/hermes-stealth-browser-ops/SKILL.md",
+      "compatibility": [
+        "hermes"
+      ]
+    },
+    {
+      "id": "hermes-subagent-swarms",
+      "name": {
+        "en": "Hermes Subagent Swarm Delegation",
+        "fa": "ارکستراسیون موازی ساب‌ایجنت‌ها در هرمس"
+      },
+      "category": "hermes",
+      "tags": [
+        "hermes",
+        "subagents",
+        "multi-agent",
+        "swarms",
+        "delegation"
+      ],
+      "summary": {
+        "en": "Parallel subagent delegation patterns, isolated context partitioning, and structured schema validation for Hermes Agent.",
+        "fa": "الگوهای تفویض موازی وظایف به ساب‌ایجنت‌ها با جداسازی کانتکست و اعتبارسنجی اسکیما."
+      },
+      "source_repo": "https://github.com/NousResearch/hermes-agent",
+      "path": "skills/hermes/hermes-subagent-swarms/SKILL.md",
+      "compatibility": [
+        "hermes"
       ]
     },
     {

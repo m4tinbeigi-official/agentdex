@@ -12,6 +12,30 @@ SKILLS_DIR = ROOT_DIR / "skills"
 REGISTRY_FILE = ROOT_DIR / "registry.json"
 
 KNOWN_LOCALIZATIONS = {
+    "hermes-recursive-self-healing": {
+        "name": {"en": "Hermes Recursive Self-Healing & Error Recovery", "fa": "خودترمیمی بازگشتی و بازیابی خطای هرمس"},
+        "summary": {"en": "Autonomous 4-phase error recovery, root-cause isolation, and self-patching for Hermes tool and code failures.", "fa": "پروتکل خودکار ۴ مرحله‌ای ریشه‌یابی و پچ خطاهای ابزارها و اجرای کد در هرمس."},
+        "tags": ["hermes", "self-healing", "error-recovery", "debugging", "agent-ops"],
+        "compatibility": ["hermes"]
+    },
+    "hermes-memory-consolidation": {
+        "name": {"en": "Hermes Persistent Memory Consolidation", "fa": "مدیریت و متراکم‌سازی حافظه پایدار هرمس"},
+        "summary": {"en": "Advanced memory optimization, atomic batch consolidation, and character budget guardrails for Hermes Agent.", "fa": "بهینه‌سازی حافظه پایدار هرمس، تجمیع اتمیک حقایق و مدیریت بودجه کاراکتر."},
+        "tags": ["hermes", "memory", "state", "optimization", "guardrails"],
+        "compatibility": ["hermes"]
+    },
+    "hermes-subagent-swarms": {
+        "name": {"en": "Hermes Subagent Swarm Delegation", "fa": "ارکستراسیون موازی ساب‌ایجنت‌ها در هرمس"},
+        "summary": {"en": "Parallel subagent delegation patterns, isolated context partitioning, and structured schema validation for Hermes Agent.", "fa": "الگوهای تفویض موازی وظایف به ساب‌ایجنت‌ها با جداسازی کانتکست و اعتبارسنجی اسکیما."},
+        "tags": ["hermes", "subagents", "multi-agent", "swarms", "delegation"],
+        "compatibility": ["hermes"]
+    },
+    "hermes-stealth-browser-ops": {
+        "name": {"en": "Hermes Stealth Browser Operations", "fa": "عملیات مرورگر هوشمند و هدلس هرمس"},
+        "summary": {"en": "Resilient browser automation using Chrome DevTools Protocol, accessibility trees, and DOM evaluation inside Hermes browser_exec.", "fa": "اتوماسیون وب با درخت در دسترس‌پذیری و پروتکل CDP داخل ران‌تایم مرورگر هرمس."},
+        "tags": ["hermes", "browser-exec", "cdp", "scraping", "stealth"],
+        "compatibility": ["hermes"]
+    },
     "ghidra-decompiler-triage": {
         "name": {"en": "Ghidra Reverse Engineering & Binary Triage", "fa": "مهندسی معکوس و تحلیل باینری با گیدرا"},
         "summary": {"en": "Headless decompilation, p-code emulation, and reverse engineering based on NSA Ghidra.", "fa": "دیکامپایل هدلس و تحلیل کد باینری بر پایه گیدرا."},
@@ -119,7 +143,7 @@ def build():
             "en": "Universal index of specialized capabilities, security tools, and workflows for Hermes, Claude Code, Cursor, and custom autonomous agents.",
             "fa": "دایرکتوری جامع ابزارها، روش‌ها و مهارت‌های تخصصی برای هرمس، کلود، کرسر و ایجنت‌های خودمختار.",
         },
-        "version": "1.1.0",
+        "version": "1.2.0",
         "api_endpoint": "https://m4tinbeigi-official.github.io/agentdex/registry.json",
         "skills": skills,
     }
